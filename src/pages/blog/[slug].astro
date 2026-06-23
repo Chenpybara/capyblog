@@ -1,7 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
+import { Marked } from 'marked';
 import Layout from '../../layouts/Layout.astro';
+
+const marked = new Marked();
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('blog');
@@ -18,6 +21,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric',
 });
+const htmlContent = await marked.parse(post.body);
 ---
 
 <Layout title={title} description={description}>
@@ -54,9 +58,7 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
       prose-li:text-gray-300
       prose-hr:border-gray-800
     ">
-      {post.body && (
-        <Fragment set:html={post.compiledContent || ''} />
-      )}
+      <Fragment set:html={htmlContent} />
     </div>
     <div class="mt-16 pt-8 border-t border-gray-800">
       <a href="/blog" class="text-sm text-indigo-400 hover:underline">&larr; Back to Blog</a>
