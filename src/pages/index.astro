@@ -1,10 +1,87 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const latest = sorted.slice(0, 3);
 ---
 
+
 <Layout>
-  <main class="p-8 max-w-3xl mx-auto">
-    <h1 class="text-4xl font-bold mb-4">欢迎来到我的博客</h1>
-    <p class="text-lg text-gray-600">这是我的个人网站，使用 Astro 构建。</p>
-  </main>
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-gray-800">
+    <div class="absolute inset-0 bg-gradient-to-br from-indigo-950/80 via-gray-950 to-gray-950" />
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-900/30 via-transparent to-transparent" />
+    <div class="relative mx-auto max-w-5xl px-6 py-24 md:py-36">
+      <div class="max-w-2xl">
+        <span class="inline-block rounded-full bg-indigo-500/10 px-4 py-1.5 text-sm font-medium text-indigo-400 mb-6">
+          Welcome to Capyblog
+        </span>
+        <h1 class="text-5xl font-bold tracking-tight leading-tight md:text-6xl">
+          I make <span class="text-indigo-400">videos</span> about tech &amp; creativity.
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed text-gray-400">
+          Sharing what I learn along the way — gear reviews, editing tutorials, and honest stories
+          from building a creator career one video at a time.
+        </p>
+        <div class="mt-8 flex gap-4">
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-colors hover:bg-indigo-400"
+          >
+            Read the Blog
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+          <a
+            href="/blog"
+            class="inline-flex items-center gap-2 rounded-lg border border-gray-700 px-6 py-3 text-sm font-semibold text-gray-300 transition-colors hover:border-gray-500 hover:text-gray-100"
+          >
+            Latest Videos
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Posts -->
+  <section class="mx-auto max-w-5xl px-6 py-20">
+    <div class="flex items-center justify-between mb-10">
+      <div>
+        <h2 class="text-2xl font-bold">Latest Posts</h2>
+        <p class="mt-1 text-gray-500">Recent articles and video tutorials</p>
+      </div>
+      <a href="/blog" class="text-sm font-medium text-indigo-400 hover:underline">
+        View all &rarr;
+      </a>
+    </div>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {latest.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+
+  <!-- Stats / CTA -->
+  <section class="border-t border-gray-800 bg-gray-900/50">
+    <div class="mx-auto max-w-5xl px-6 py-20">
+      <div class="grid gap-8 text-center sm:grid-cols-3">
+        <div>
+          <div class="text-3xl font-bold text-indigo-400">4</div>
+          <div class="mt-1 text-sm text-gray-500">Blog Posts</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-indigo-400">52</div>
+          <div class="mt-1 text-sm text-gray-500">Videos This Year</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-indigo-400">2.4K</div>
+          <div class="mt-1 text-sm text-gray-500">Subscribers</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
