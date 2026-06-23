@@ -22,9 +22,14 @@ const formattedDate = new Date(date).toLocaleDateString('en-US', {
     {cover ? (
       <img src={cover} alt={title} class="h-full w-full object-cover transition-transform group-hover:scale-105" />
     ) : (
-      <svg class="h-16 w-16 text-indigo-600 opacity-40" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M8 5v14l11-7z" />
-      </svg>
+      <div class="relative flex h-full w-full items-center justify-center">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/60 via-gray-900 to-gray-800" />
+        <div class="relative flex h-16 w-16 items-center justify-center rounded-full bg-indigo-500/80 shadow-lg shadow-indigo-500/30 transition-transform group-hover:scale-110">
+          <svg class="ml-1 h-8 w-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      </div>
     )}
   </div>
   <div class="p-5">
