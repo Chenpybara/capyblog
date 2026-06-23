@@ -15,7 +15,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 const { post } = Astro.props;
-const { title, date, description, cover, tags } = post.data;
+const { title, date, description, tags } = post.data;
 const formattedDate = new Date(date).toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
@@ -37,11 +37,6 @@ const htmlContent = await marked.parse(post.body);
       <h1 class="text-4xl font-bold tracking-tight leading-tight">{title}</h1>
       <time class="mt-4 block text-sm text-gray-500">{formattedDate}</time>
     </header>
-    {
-      cover && (
-        <img src={cover} alt={title} class="w-full rounded-xl mb-10" />
-      )
-    }
     <div class="prose prose-invert prose-gray max-w-none
       prose-headings:text-gray-100 prose-headings:font-semibold
       prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
