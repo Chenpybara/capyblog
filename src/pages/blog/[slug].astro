@@ -4,7 +4,7 @@ import type { GetStaticPaths } from 'astro';
 import { Marked } from 'marked';
 import Layout from '../../layouts/Layout.astro';
 
-const marked = new Marked();
+const marked = new Marked({ breaks: true });
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection('blog');
